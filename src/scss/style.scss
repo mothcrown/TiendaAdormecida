@@ -1,0 +1,11 @@
+
+@import '_aux.scss';
+
+body {
+  background-color: red;
+}
+
+.ejemplo {
+  background-color: blue;
+  @include border(2px);
+}

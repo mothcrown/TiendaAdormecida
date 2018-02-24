@@ -14,6 +14,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "eslint": "^4.18.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.9.0",
@@ -23,10 +24,5 @@
     "gulp-babel": "^7.0.1",
     "gulp-sass": "^3.1.0",
     "jsdocs": "^1.0.0"
-  },
-  "dependencies": {
-    "jquery": "^3.3.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
   }
 }
