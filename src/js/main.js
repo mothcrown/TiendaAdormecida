@@ -22,7 +22,6 @@ class App extends React.Component {
     // Ni idea de cómo funciona esto. Pero ni idea!
     return (
       <div>
-        
         <div>{titulo} - {App.props.subtitulo}</div>
         <Menu />
       </div>

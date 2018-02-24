@@ -9,6 +9,6 @@ List of technologies we'll be using here in no real order: npm, jQuery, jQueryUI
 Star us for luck!
 
 Equipo Adormecido rooster:
-* Joel
-* Marcos
-* Victor
+* [Joel](https://github.com/jerona)
+* [Marcos](https://github.com/mothcrown)
+* [Victor](https://github.com/VictorAcaymo)
