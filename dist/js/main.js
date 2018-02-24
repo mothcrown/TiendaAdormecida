@@ -58,6 +58,7 @@ var App = function (_React$Component2) {
   _createClass(App, [{
     key: 'render',
     value: function render() {
+      // Ni idea de cómo funciona esto. Pero ni idea!
       return React.createElement(
         'div',
         null,
