@@ -1,6 +1,55 @@
-body {
-  background-color: red; }
+html {
+  height: 100%; }
 
-.ejemplo {
-  background-color: blue;
-  border: 2px solid black; }
+body {
+  height: 100%;
+  background-color: #DCDCDC;
+  box-sizing: border-box; }
+
+header {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 125px;
+  background-color: #003366; }
+
+.principal {
+  display: flex;
+  flex-flow: row nowrap; }
+
+.logo {
+  width: 25%;
+  height: 100%;
+  padding-left: 1%; }
+  .logo img {
+    width: 100%; }
+
+#barraBusqueda {
+  height: 100%; }
+  #barraBusqueda div {
+    padding-top: 8%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: space-around; }
+  #barraBusqueda a {
+    padding-top: .5em;
+    color: ghostwhite; }
+
+#inputBusqueda {
+  width: 25em;
+  margin: 0 .5em 0 1em;
+  padding-left: .5em;
+  background-color: ghostwhite;
+  border-radius: 0.5em; }
+
+#selectBusqueda {
+  background-color: ghostwhite;
+  border-radius: 0.5em; }
+
+#botonBusqueda {
+  cursor: pointer;
+  margin: 0 1em 0 .5em;
+  border-radius: 0.5em; }
+
+footer {
+  height: 15%;
+  background-color: #003366; }

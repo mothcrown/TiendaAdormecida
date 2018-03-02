@@ -1,3 +1,16 @@
 @mixin border($width: 1px, $style: solid, $color: black) {
   border: $width $style $color;
 }
+
+@mixin borderradius($radius: .5em) {
+  border-radius: $radius;
+}
+
+@mixin textstroke($width: 1px, $color: black) {
+  -webkit-text-stroke: $width $color; 
+  text-stroke: $width $color;
+}
+
+@mixin textshadow($width: 1px, $height: 1px, $blur: 1px, $color: black) {
+  text-shadow: $width $height $blur $color;
+}
