@@ -8,7 +8,8 @@ module.exports = {
       "react/no-multi-comp": [0, { "ignoreStateless": true }],
       "react/no-deprecated": [0],
       "react/jsx-no-undef": [0],
-      "react/prop-types": [0]
+      "react/prop-types": [0],
+      "jsx-a11y/anchor-is-valid": [0]
     },
     "env": {
       "browser": true,

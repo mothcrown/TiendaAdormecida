@@ -1,7 +1,22 @@
 /* global React */
 
-class SelectBusqueda extends React.Component {
+class BusquedaAvanzada extends React.Component {
+  render() {
+    return (
+      <a href="#">Avanzada</a>
+    );
+  }
+}
 
+class BotonBusqueda extends React.Component {
+  render() {
+    return (
+      <button id="botonBusqueda"><i className="fa fa-search" /> Buscar</button>
+    );
+  }
+}
+
+class SelectBusqueda extends React.Component {
   render() {
     const { categorias } = this.props;
 
@@ -31,7 +46,7 @@ SelectBusqueda.defaultProps = {
 class InputBusqueda extends React.Component {
   render() {
     return (
-      <input id="inputBusqueda" type="text" />
+      <input id="inputBusqueda" type="text" placeholder="Busca ofertas" />
     );
   }
 }
@@ -42,6 +57,8 @@ class Busqueda extends React.Component {
       <div>
         <InputBusqueda />
         <SelectBusqueda />
+        <BotonBusqueda />
+        <BusquedaAvanzada />
       </div>
     );
   }
