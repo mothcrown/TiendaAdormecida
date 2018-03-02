@@ -1,6 +1,41 @@
-body {
-  background-color: red; }
+html {
+  height: 100%; }
 
-.ejemplo {
-  background-color: blue;
-  border: 2px solid black; }
+body {
+  height: 100%;
+  background-color: #DCDCDC;
+  box-sizing: border-box; }
+
+header {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 125px;
+  background-color: #003366; }
+
+.principal {
+  display: flex;
+  flex-flow: row nowrap; }
+
+.logo {
+  width: 20%;
+  height: 100%;
+  padding-top: 3%;
+  padding-left: 1%; }
+  .logo img {
+    width: 95%; }
+
+#barraBusqueda {
+  height: 100%; }
+  #barraBusqueda div {
+    padding-top: 10%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: space-around; }
+
+#inputBusqueda {
+  width: 25em;
+  border-radius: 0.5em; }
+
+footer {
+  height: 15%;
+  background-color: #003366; }
