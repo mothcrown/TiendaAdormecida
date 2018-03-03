@@ -9,8 +9,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mothcrown/TiendaAdormecida.git"
+  },
   "author": "Equipo Adormecido",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mothcrown/TiendaAdormecida/issues"
+  },
+  "homepage": "https://github.com/mothcrown/TiendaAdormecida",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
