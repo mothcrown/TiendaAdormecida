@@ -1,4 +1,46 @@
-/* global React */
+/* global $ React */
+
+// JSONs simplitos que nos va a ayudar muchito
+const apiKey = {
+  eBay: 'MarcosDa-TiendaAd-SBX-6df6f4b63-ba6b285d',
+  Walmart: 'rrxgpza76z7ea5r2db73jtkz',
+};
+
+const urlBasica = {
+  walmart: 'http://api.walmartlabs.com/v1/search?',
+};
+
+const idCategorias = {
+  camaras: {
+    Walmart: '944_133277',
+  },
+  relojes: {
+    Walmart: '3891_3906',
+  },
+  tablets: {
+    Walmart: '3944_1078524',
+  },
+};
+
+function buscaWalmart(keywords, idCategoria) {
+  $.getJSON(urlBasica.walmart, {
+    query: keywords,
+    apikey: apiKey.Walmart,
+    categoryId: idCategoria,
+    format: 'json',
+    limit: 20,
+  })
+    .done(function (response) {
+      const aux = response;
+    });
+}
+
+function buscaProductos(keywords, categoria) {
+  let busqueda = keywords;
+  // Quita espacios y los cambia por '%20'
+  busqueda = encodeURIComponent(busqueda.trim());
+  const resultado = buscaWalmart(busqueda, idCategorias[categoria].Walmart);
+}
 
 class BusquedaAvanzada extends React.Component {
   render() {
@@ -9,6 +51,9 @@ class BusquedaAvanzada extends React.Component {
 }
 
 class BotonBusqueda extends React.Component {
+  static handleClick() {
+    // Estoy trabajando en esto, pero guay, eh?
+  }
   render() {
     return (
       <button id="botonBusqueda"><i className="fa fa-search" /> Buscar</button>
