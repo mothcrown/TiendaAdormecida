@@ -14,3 +14,17 @@
 @mixin textshadow($width: 1px, $height: 1px, $blur: 1px, $color: black) {
   text-shadow: $width $height $blur $color;
 }
+
+@mixin transform($param1, $param2) {
+  -webkit-transform: $param1 $param2;
+  -moz-transform: $param1 $param2;
+  -ms-transform: $param1 $param2;
+  transform: $param1 $param2;
+}
+
+@mixin transition($param1) {
+  -webkit-transition: $param1;
+  -moz-transition: $param1;
+  -ms-transition: $param1;
+  transition: $param1;
+}

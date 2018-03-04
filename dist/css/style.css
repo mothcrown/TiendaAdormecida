@@ -9,6 +9,7 @@ body {
 header {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-between;
   height: 125px;
   background-color: #003366; }
 
@@ -32,7 +33,8 @@ header {
     align-content: space-around; }
   #barraBusqueda a {
     padding-top: .5em;
-    color: ghostwhite; }
+    color: ghostwhite;
+    text-decoration: underline; }
 
 #inputBusqueda {
   width: 25em;
@@ -53,3 +55,67 @@ header {
 footer {
   height: 15%;
   background-color: #003366; }
+
+.contenedor_productos {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding: .5em; }
+  .contenedor_productos .producto {
+    position: relative;
+    width: 15em;
+    height: 15em;
+    margin: .5em;
+    padding: .5em;
+    background-color: ghostwhite;
+    border: 2px solid #003366;
+    border-radius: 0.5em; }
+    .contenedor_productos .producto img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      border: 1px solid black;
+      border-radius: 0.5em; }
+
+.enlaces_producto {
+  position: absolute;
+  width: 90%;
+  bottom: 5%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between; }
+
+.fa-search {
+  margin-right: .5em; }
+
+.fa-search-plus {
+  margin-left: .5em; }
+
+.fa-user {
+  margin-right: .5em; }
+
+.comprar_producto:hover {
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-transform: scale(1.3) rotate(-10deg);
+  -moz-transform: scale(1.3) rotate(-10deg);
+  -ms-transform: scale(1.3) rotate(-10deg);
+  transform: scale(1.3) rotate(-10deg);
+  -webkit-transition: transform 0.5s;
+  -moz-transition: transform 0.5s;
+  -ms-transition: transform 0.5s;
+  transition: transform 0.5s; }
+
+#login {
+  font-size: 110%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  color: ghostwhite;
+  margin-right: 1em; }
+  #login div {
+    padding-top: 8%;
+    cursor: pointer; }

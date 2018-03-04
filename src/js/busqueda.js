@@ -1,30 +1,4 @@
-/* global $ React moldeProductos listaProductos */
-
-// JSONs simplitos que nos va a ayudar muchito
-const apiKey = {
-  eBay: 'MarcosDa-TiendaAd-PRD-0df64df3e-523ae795',
-  Walmart: 'rrxgpza76z7ea5r2db73jtkz',
-};
-
-const urlBasica = {
-  ebay: 'http://svcs.ebay.com/services/search/FindingService/v1?',
-  walmart: 'http://api.walmartlabs.com/v1/search?callback=?',
-};
-
-const idCategorias = {
-  camaras: {
-    eBay: '31388',
-    Walmart: '3944_133277_4468',
-  },
-  relojes: {
-    eBay: '31387',
-    Walmart: '3891_3906',
-  },
-  tablets: {
-    eBay: '171485',
-    Walmart: '3944_1078524',
-  },
-};
+/* global $ React moldeProductos urlBasica apiKey idCategorias listaProductos */
 
 function buscaWalmart(keywords, idCategoria) {
   $.getJSON(urlBasica.walmart, {
@@ -32,7 +6,7 @@ function buscaWalmart(keywords, idCategoria) {
     apikey: apiKey.Walmart,
     categoryId: idCategoria,
     format: 'json',
-    limit: 20,
+    limit: 5,
   })
     .done(function (response) {
       moldeProductos(response.items, 'Walmart');
@@ -59,10 +33,9 @@ function buscaEBay(keywords, idCategoria) {
       keywords,
       categoryId: idCategoria,
       // siteid: '0',
-      'paginationInput.entriesPerPage': 10,
+      'paginationInput.entriesPerPage': 5,
     },
     success: function (response) {
-      console.warn(response);
       moldeProductos(response.findItemsAdvancedResponse[0].searchResult[0].item, 'eBay');
     },
   });
@@ -71,7 +44,7 @@ function buscaEBay(keywords, idCategoria) {
 function buscaProductos(keywords, categoria) {
   let busqueda = keywords;
   // Quita espacios y los cambia por '%20'
-  busqueda = encodeURIComponent(busqueda.trim());
+  // busqueda = encodeURIComponent(busqueda.trim());
   buscaWalmart(busqueda, idCategorias[categoria].Walmart);
   buscaEBay(busqueda, idCategorias[categoria].eBay);
 }
@@ -94,7 +67,7 @@ class BotonBusqueda extends React.Component {
     return (
       <button id="botonBusqueda" onClick={this.handleClick}>
         <i className="fa fa-search" />
-         Buscar
+        Buscar
       </button>
     );
   }

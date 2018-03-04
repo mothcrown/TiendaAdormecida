@@ -8,33 +8,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-/* global $ React moldeProductos listaProductos */
-
-// JSONs simplitos que nos va a ayudar muchito
-var apiKey = {
-  eBay: 'MarcosDa-TiendaAd-PRD-0df64df3e-523ae795',
-  Walmart: 'rrxgpza76z7ea5r2db73jtkz'
-};
-
-var urlBasica = {
-  ebay: 'http://svcs.ebay.com/services/search/FindingService/v1?',
-  walmart: 'http://api.walmartlabs.com/v1/search?callback=?'
-};
-
-var idCategorias = {
-  camaras: {
-    eBay: '31388',
-    Walmart: '3944_133277_4468'
-  },
-  relojes: {
-    eBay: '31387',
-    Walmart: '3891_3906'
-  },
-  tablets: {
-    eBay: '171485',
-    Walmart: '3944_1078524'
-  }
-};
+/* global $ React moldeProductos urlBasica apiKey idCategorias listaProductos */
 
 function buscaWalmart(keywords, idCategoria) {
   $.getJSON(urlBasica.walmart, {
@@ -42,43 +16,17 @@ function buscaWalmart(keywords, idCategoria) {
     apikey: apiKey.Walmart,
     categoryId: idCategoria,
     format: 'json',
-    limit: 20
+    limit: 5
   }).done(function (response) {
     moldeProductos(response.items, 'Walmart');
   });
 }
 
-/*
-function devuelveProductos(response) {
-  const resultados = moldeProductos(response.searchResult, 'eBay');
-  return resultados;
-}
-*/
-
+/**
+ * HE VENCIDO A ESTA PETICIÓN AJAX. SOY EL SEÑOR DE EBAY!
+ *  - Marcos.
+ */
 function buscaEBay(keywords, idCategoria) {
-  /*
-  $.ajax({
-    url: 'http://open.api.ebay.com/shopping?callname=FindItemsAdvanced',
-    type: 'POST',
-    dataType: 'JSONP',
-    jsonp: 'callbackname',
-    crossDomain: true,
-    data: {
-      appid: apiKey.eBay,
-      version: '771',
-      siteid: '0',
-      requestencoding: 'JSON',
-      responseencoding: 'JSON',
-      QueryKeywords: keywords,
-      MaxEntries: '10',
-      callback: true,
-    },
-    success: function (response) {
-      moldeProductos(response.searchResult, 'eBay');
-    },
-  })
-  */
-
   $.ajax({
     url: urlBasica.ebay,
     type: 'POST',
@@ -94,36 +42,18 @@ function buscaEBay(keywords, idCategoria) {
       keywords: keywords,
       categoryId: idCategoria,
       // siteid: '0',
-      'paginationInput.entriesPerPage': 10
+      'paginationInput.entriesPerPage': 5
     },
     success: function success(response) {
-      console.warn(response);
       moldeProductos(response.findItemsAdvancedResponse[0].searchResult[0].item, 'eBay');
     }
   });
-
-  /*
-  $.getJSON(urlBasica.ebay, {
-    'OPERATION-NAME': 'findItemsAdvanced',
-    'SERVICE-VERSION': '1.0.0',
-    'SECURITY-APPNAME': apiKey.eBay,
-    'GLOBAL-ID': 'EBAY-US',
-    'RESPONSE-DATA-FORMAT': 'JSON',
-    'REST-PAYLOAD': 'true',
-    'paginationInput.entriesPerPage': 10,
-    keywords,
-    categoryId: idCategoria,
-  })
-    .done(function (response) {
-      moldeProductos(response.searchResult, 'eBay');
-    });
-  */
 }
 
 function buscaProductos(keywords, categoria) {
   var busqueda = keywords;
   // Quita espacios y los cambia por '%20'
-  busqueda = encodeURIComponent(busqueda.trim());
+  // busqueda = encodeURIComponent(busqueda.trim());
   buscaWalmart(busqueda, idCategorias[categoria].Walmart);
   buscaEBay(busqueda, idCategorias[categoria].eBay);
 }

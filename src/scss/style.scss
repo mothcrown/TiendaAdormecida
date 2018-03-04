@@ -14,6 +14,7 @@ body {
 header {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-between;
   height: 125px;
   background-color: #003366;
 }
@@ -43,6 +44,7 @@ header {
   a {
     padding-top: .5em;
     color: ghostwhite;
+    text-decoration: underline;
   }
 }
 
@@ -68,4 +70,70 @@ header {
 footer {
   height: 15%;
   background-color: #003366;
+}
+
+.contenedor_productos{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding: .5em;
+  .producto{
+    position: relative;
+    width: 15em;
+    height: 15em;
+    margin: .5em;
+    padding: .5em;
+    background-color: ghostwhite;
+    @include border(2px, solid, #003366);
+    @include borderradius;
+    img {
+      display: block; 
+      margin-left: auto; 
+      margin-right: auto; 
+      width: 50%;
+      @include border;
+      @include borderradius;
+    }
+  }
+}
+.enlaces_producto{
+  position: absolute;
+  width: 90%;
+  bottom: 5%;
+  display:flex;
+  flex-flow:row wrap;
+  justify-content: space-between;
+}
+
+.fa-search {
+  margin-right: .5em;
+}
+.fa-search-plus {
+  margin-left: .5em;
+}
+.fa-user{
+  margin-right: .5em;
+}
+
+.comprar_producto:hover {
+  text-decoration: none;
+  font-weight: bold;
+  @include transform(scale(1.3), rotate(-10deg));
+  @include transition(transform .5s);
+}
+
+#login {
+  font-size: 110%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  color: ghostwhite;
+  margin-right: 1em;
+  div {
+    padding-top: 8%;
+    cursor: pointer;
+  }
+  
 }

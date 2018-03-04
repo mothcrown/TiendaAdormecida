@@ -1,4 +1,4 @@
-/* global React */
+/* global React $ urlBasica apiKey */
 
 /** Representa un producto.
 * @author Joel Alberto Armas Reyes.
@@ -49,7 +49,29 @@ Producto.prototype = {
 }
 
 // Constantes
-const listaProductos = [];
+let listaProductos;
+let listaProductosReact;
+const a = [];
+
+class Productos extends React.Component {
+  render() {
+    listaProductosReact = [];
+    for (let x = 0; x < listaProductos.length; x += 1) {
+      listaProductosReact[listaProductosReact.length] =
+        (
+          <ProductosDOM
+            id={listaProductos[x].id}
+            nombre={listaProductos[x].nombre}
+            precio={listaProductos[x].precio}
+            descripcion={listaProductos[x].descripcionCorta}
+            cover={listaProductos[x].rutaImagen}
+          />
+        );
+    }
+    // return (<div className="contenedor_producto">{listaProductos}</div>);
+    return (<div className="contenedor_productos">{listaProductosReact}</div>);
+  }
+}
 
 class ProductosDOM extends React.Component {
   constructor(props) {
@@ -86,21 +108,23 @@ class ProductosDOM extends React.Component {
   }
 
   render() {
+    // <div className="descripcionProducto">{this.props.descripcion}</div>
+    const nombre = (this.props.nombre.length > 50) ? `${this.props.nombre.substring(0, 50)}...` : this.props.nombre;
     return (
       <div className="producto">
         <div>
           <img src={this.props.cover} alt="producto tablet" />
         </div>
         <div>
-          <div className="nombreProducto">{this.props.nombre}</div>
-          <div className="descripcionProducto">{this.props.descripcion}</div>
-          <div className="precioProducto">{this.props.precio}</div>
+          <div className="nombreProducto">{nombre}</div>
+          <div><b>Precio:</b> <span className="precioProducto">{this.props.precio}</span></div>
           <div className="enlaces_producto">
             <a
               className="ver_detalles"
               href="javascript:void(0);"
               onClick={this.masDetalleProducto.bind(this,this.props.id)}>
-              Ver mas detalles
+              Ver detalles 
+              <i className="fa fa-search-plus" />
             </a>
             <a 
               className="comprar_producto 
@@ -123,7 +147,54 @@ ProductosDOM.defaultProps = {
   cover: 'Imagen no asignada',
 };
 
+function quitarCaracteresRaros(cadena) {
+  let textoLimpio;
+
+  textoLimpio = cadena.replace(/&lt;/gi, '');
+  textoLimpio = textoLimpio.replace(/&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/&quot;/gi, '');
+  textoLimpio = textoLimpio.replace(/br&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/b&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/li&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/ul&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/\\"/gi, '');
+  textoLimpio = textoLimpio.replace(/[""]/gi, '');
+  textoLimpio = textoLimpio.replace(/["]/gi, '');
+  textoLimpio = textoLimpio.replace(/["\"]/gi, '');
+  textoLimpio = textoLimpio.replace(/[\""]/gi, '');
+  return textoLimpio;
+}
+
+/**
+ * Convertir de dolar a euro.
+ * JOEL MVP!
+ */
+function convertirDolarAEuro() {
+  const listaPrecios = $('.precioProducto');
+  const listaPreciosLength = listaPrecios.length;
+  for (let i = 0; i < listaPreciosLength; i += 1) {
+    $.getJSON(urlBasica.forex, {
+      quantity: parseInt($(listaPrecios[i]).text(), 10),
+      api_key: apiKey.Forex,
+      format: 'json',
+    }).done(function (response) {
+      const posA = (response.text).indexOf(' USD');
+      const dolar = (response.text+"").substring(0, posA);
+      const eur = response.value.toFixed(2);
+      $(listaPrecios[i]).text(`${eur}€`);
+    });
+  }
+
+
+}
+
+function mostrarProductos() {
+  React.render(<Productos />, document.getElementById('productos'));
+  convertirDolarAEuro();
+}
+
 function moldeProductos(items, api) {
+  listaProductos = [];
   const numItems = items.length;
   for (let i = 0; i < numItems; i += 1) {
     if (api === 'eBay') {
@@ -133,16 +204,16 @@ function moldeProductos(items, api) {
       const descripcionCorta = 'No disponible';
       // descripcionCorta = `${descripcion.substring(0, 20)}...`;
       const precio = items[i].sellingStatus[0].currentPrice[0].__value__;
-      const rutaImagen = items[i].galleryUrl[0];
+      const rutaImagen = items[i].galleryURL[0];
       const tipo = 'tipo';
       const producto = new Producto(id, nombre, descripcion, descripcionCorta, precio, rutaImagen, tipo);
       listaProductos.push(producto);
     }
     if (api === 'Walmart') {
       const id = items[i].itemId;
-      const nombre = items[i].name;
-      const descripcion = items[i].longDescription;
-      let descripcionCorta = items[i].shortDescription;
+      const nombre = quitarCaracteresRaros(items[i].name);
+      const descripcion = quitarCaracteresRaros(items[i].longDescription);
+      let descripcionCorta = quitarCaracteresRaros(items[i].shortDescription);
       descripcionCorta = `${descripcion.substring(0, 20)}...`;
       const precio = items[i].salePrice;
       const rutaImagen = items[i].thumbnailImage;
@@ -151,5 +222,6 @@ function moldeProductos(items, api) {
       listaProductos.push(producto);
     }
   }
+  mostrarProductos();
 }
 

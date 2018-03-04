@@ -8,7 +8,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-/* global React */
+/* global React $ urlBasica apiKey */
 
 /** Representa un producto.
 * @author Joel Alberto Armas Reyes.
@@ -85,19 +85,55 @@ Producto.prototype = {
   }
 
   // Constantes
-};var listaProductos = [];
+};var listaProductos = void 0;
+var listaProductosReact = void 0;
+var a = [];
 
-var ProductosDOM = function (_React$Component) {
-  _inherits(ProductosDOM, _React$Component);
+var Productos = function (_React$Component) {
+  _inherits(Productos, _React$Component);
+
+  function Productos() {
+    _classCallCheck(this, Productos);
+
+    return _possibleConstructorReturn(this, (Productos.__proto__ || Object.getPrototypeOf(Productos)).apply(this, arguments));
+  }
+
+  _createClass(Productos, [{
+    key: 'render',
+    value: function render() {
+      listaProductosReact = [];
+      for (var x = 0; x < listaProductos.length; x += 1) {
+        listaProductosReact[listaProductosReact.length] = React.createElement(ProductosDOM, {
+          id: listaProductos[x].id,
+          nombre: listaProductos[x].nombre,
+          precio: listaProductos[x].precio,
+          descripcion: listaProductos[x].descripcionCorta,
+          cover: listaProductos[x].rutaImagen
+        });
+      }
+      // return (<div className="contenedor_producto">{listaProductos}</div>);
+      return React.createElement(
+        'div',
+        { className: 'contenedor_productos' },
+        listaProductosReact
+      );
+    }
+  }]);
+
+  return Productos;
+}(React.Component);
+
+var ProductosDOM = function (_React$Component2) {
+  _inherits(ProductosDOM, _React$Component2);
 
   function ProductosDOM(props) {
     _classCallCheck(this, ProductosDOM);
 
-    var _this = _possibleConstructorReturn(this, (ProductosDOM.__proto__ || Object.getPrototypeOf(ProductosDOM)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (ProductosDOM.__proto__ || Object.getPrototypeOf(ProductosDOM)).call(this, props));
 
-    _this.comprarProducto = _this.comprarProducto.bind(_this);
-    _this.masDetalleProducto = _this.masDetalleProducto.bind(_this);
-    return _this;
+    _this2.comprarProducto = _this2.comprarProducto.bind(_this2);
+    _this2.masDetalleProducto = _this2.masDetalleProducto.bind(_this2);
+    return _this2;
   }
 
   _createClass(ProductosDOM, [{
@@ -132,6 +168,8 @@ var ProductosDOM = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      // <div className="descripcionProducto">{this.props.descripcion}</div>
+      var nombre = this.props.nombre.length > 50 ? this.props.nombre.substring(0, 50) + '...' : this.props.nombre;
       return React.createElement(
         'div',
         { className: 'producto' },
@@ -146,17 +184,22 @@ var ProductosDOM = function (_React$Component) {
           React.createElement(
             'div',
             { className: 'nombreProducto' },
-            this.props.nombre
+            nombre
           ),
           React.createElement(
             'div',
-            { className: 'descripcionProducto' },
-            this.props.descripcion
-          ),
-          React.createElement(
-            'div',
-            { className: 'precioProducto' },
-            this.props.precio
+            null,
+            React.createElement(
+              'b',
+              null,
+              'Precio:'
+            ),
+            ' ',
+            React.createElement(
+              'span',
+              { className: 'precioProducto' },
+              this.props.precio
+            )
           ),
           React.createElement(
             'div',
@@ -167,7 +210,8 @@ var ProductosDOM = function (_React$Component) {
                 className: 'ver_detalles',
                 href: 'javascript:void(0);',
                 onClick: this.masDetalleProducto.bind(this, this.props.id) },
-              'Ver mas detalles'
+              'Ver detalles',
+              React.createElement('i', { className: 'fa fa-search-plus' })
             ),
             React.createElement(
               'a',
@@ -193,7 +237,57 @@ ProductosDOM.defaultProps = {
   cover: 'Imagen no asignada'
 };
 
+function quitarCaracteresRaros(cadena) {
+  var textoLimpio = void 0;
+
+  textoLimpio = cadena.replace(/&lt;/gi, '');
+  textoLimpio = textoLimpio.replace(/&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/&quot;/gi, '');
+  textoLimpio = textoLimpio.replace(/br&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/b&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/li&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/ul&gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/\\"/gi, '');
+  textoLimpio = textoLimpio.replace(/[""]/gi, '');
+  textoLimpio = textoLimpio.replace(/["]/gi, '');
+  textoLimpio = textoLimpio.replace(/["\"]/gi, '');
+  textoLimpio = textoLimpio.replace(/[\""]/gi, '');
+  return textoLimpio;
+}
+
+/**
+ * Convertir de dolar a euro.
+ * JOEL MVP!
+ */
+function convertirDolarAEuro() {
+  var listaPrecios = $('.precioProducto');
+  var listaPreciosLength = listaPrecios.length;
+
+  var _loop = function _loop(i) {
+    $.getJSON(urlBasica.forex, {
+      quantity: parseInt($(listaPrecios[i]).text(), 10),
+      api_key: apiKey.Forex,
+      format: 'json'
+    }).done(function (response) {
+      var posA = response.text.indexOf(' USD');
+      var dolar = (response.text + "").substring(0, posA);
+      var eur = response.value.toFixed(2);
+      $(listaPrecios[i]).text(eur + '\u20AC');
+    });
+  };
+
+  for (var i = 0; i < listaPreciosLength; i += 1) {
+    _loop(i);
+  }
+}
+
+function mostrarProductos() {
+  React.render(React.createElement(Productos, null), document.getElementById('productos'));
+  convertirDolarAEuro();
+}
+
 function moldeProductos(items, api) {
+  listaProductos = [];
   var numItems = items.length;
   for (var i = 0; i < numItems; i += 1) {
     if (api === 'eBay') {
@@ -203,16 +297,16 @@ function moldeProductos(items, api) {
       var _descripcionCorta = 'No disponible';
       // descripcionCorta = `${descripcion.substring(0, 20)}...`;
       var precio = items[i].sellingStatus[0].currentPrice[0].__value__;
-      var rutaImagen = items[i].galleryUrl[0];
+      var rutaImagen = items[i].galleryURL[0];
       var tipo = 'tipo';
       var producto = new Producto(id, nombre, descripcion, _descripcionCorta, precio, rutaImagen, tipo);
       listaProductos.push(producto);
     }
     if (api === 'Walmart') {
       var _id = items[i].itemId;
-      var _nombre = items[i].name;
-      var _descripcion = items[i].longDescription;
-      var _descripcionCorta2 = items[i].shortDescription;
+      var _nombre = quitarCaracteresRaros(items[i].name);
+      var _descripcion = quitarCaracteresRaros(items[i].longDescription);
+      var _descripcionCorta2 = quitarCaracteresRaros(items[i].shortDescription);
       _descripcionCorta2 = _descripcion.substring(0, 20) + '...';
       var _precio = items[i].salePrice;
       var _rutaImagen = items[i].thumbnailImage;
@@ -221,4 +315,5 @@ function moldeProductos(items, api) {
       listaProductos.push(_producto);
     }
   }
+  mostrarProductos();
 }
