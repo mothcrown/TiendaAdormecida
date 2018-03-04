@@ -1,4 +1,4 @@
-/* global $ React */
+/* global $ React moldeProductos listaProductos */
 
 // JSONs simplitos que nos va a ayudar muchito
 const apiKey = {
@@ -7,17 +7,21 @@ const apiKey = {
 };
 
 const urlBasica = {
-  walmart: 'http://api.walmartlabs.com/v1/search?',
+  ebay: 'http://svcs.sandbox.ebay.com/services/search/FindingService/v1?',
+  walmart: 'http://api.walmartlabs.com/v1/search?callback=?',
 };
 
 const idCategorias = {
   camaras: {
-    Walmart: '944_133277',
+    eBay: '31388',
+    Walmart: '3944_133277_4468',
   },
   relojes: {
+    eBay: '31387',
     Walmart: '3891_3906',
   },
   tablets: {
+    eBay: '171485',
     Walmart: '3944_1078524',
   },
 };
@@ -31,15 +35,89 @@ function buscaWalmart(keywords, idCategoria) {
     limit: 20,
   })
     .done(function (response) {
-      const aux = response;
+      moldeProductos(response.items, 'Walmart');
     });
+}
+
+/*
+function devuelveProductos(response) {
+  const resultados = moldeProductos(response.searchResult, 'eBay');
+  return resultados;
+}
+*/
+
+function buscaEBay(keywords, idCategoria) {
+  /*
+  $.ajax({
+    url: 'http://open.api.ebay.com/shopping?callname=FindItemsAdvanced',
+    type: 'POST',
+    dataType: 'JSONP',
+    jsonp: 'callbackname',
+    crossDomain: true,
+    data: {
+      appid: apiKey.eBay,
+      version: '771',
+      siteid: '0',
+      requestencoding: 'JSON',
+      responseencoding: 'JSON',
+      QueryKeywords: keywords,
+      MaxEntries: '10',
+      callback: true,
+    },
+    success: function (response) {
+      moldeProductos(response.searchResult, 'eBay');
+    },
+  })
+  */
+  
+  $.ajax({
+    url: urlBasica.ebay,
+    type: 'POST',
+    dataType: 'JSONP',
+    // jsonp: 'callbackname',
+    // crossDomain: true,
+    data: {
+      'OPERATION-NAME': 'findItemsAdvanced',
+      'SERVICE-NAME': 'FindingService',
+      'SERVICE-VERSION': '1.0.0',
+      'SECURITY-APPNAME': apiKey.eBay,
+      'GLOBAL-ID': 'EBAY-US',
+      'RESPONSE-DATA-FORMAT': 'JSON',
+      'REST-PAYLOAD': true,
+      keywords,
+      categoryId: idCategoria,
+      siteid: '0',
+      'paginationInput.entriesPerPage': 10,
+    },
+    success: function (response) {
+      moldeProductos(response.searchResult, 'eBay');
+    },
+  });
+    
+  /*
+  $.getJSON(urlBasica.ebay, {
+    'OPERATION-NAME': 'findItemsAdvanced',
+    'SERVICE-VERSION': '1.0.0',
+    'SECURITY-APPNAME': apiKey.eBay,
+    'GLOBAL-ID': 'EBAY-US',
+    'RESPONSE-DATA-FORMAT': 'JSON',
+    'REST-PAYLOAD': 'true',
+    'paginationInput.entriesPerPage': 10,
+    keywords,
+    categoryId: idCategoria,
+  })
+    .done(function (response) {
+      moldeProductos(response.searchResult, 'eBay');
+    });
+  */
 }
 
 function buscaProductos(keywords, categoria) {
   let busqueda = keywords;
   // Quita espacios y los cambia por '%20'
   busqueda = encodeURIComponent(busqueda.trim());
-  const resultado = buscaWalmart(busqueda, idCategorias[categoria].Walmart);
+  buscaWalmart(busqueda, idCategorias[categoria].Walmart);
+  buscaEBay(busqueda, idCategorias[categoria].eBay);
 }
 
 class BusquedaAvanzada extends React.Component {
@@ -51,12 +129,17 @@ class BusquedaAvanzada extends React.Component {
 }
 
 class BotonBusqueda extends React.Component {
-  static handleClick() {
-    // Estoy trabajando en esto, pero guay, eh?
+  handleClick() {
+    const keywords = $('#inputBusqueda').val();
+    const categoria = $('#selectBusqueda').val();
+    buscaProductos(keywords, categoria);
   }
   render() {
     return (
-      <button id="botonBusqueda"><i className="fa fa-search" /> Buscar</button>
+      <button id="botonBusqueda" onClick={this.handleClick}>
+        <i className="fa fa-search" />
+         Buscar
+      </button>
     );
   }
 }
