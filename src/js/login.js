@@ -1,5 +1,9 @@
 /* global React $ */
 
+/**
+ * Copiar y pegar.
+ * @param {} googleUser 
+ */
 function onSignInGoogle(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -8,6 +12,7 @@ function onSignInGoogle(googleUser) {
   console.log('Email: ' + profile.getEmail());
   // $('.g-signin2').css('display', 'none');
   $('#login').empty();
+  // Esto tuve que hacerlo y no me siento nada orgulloso de ello
   $('#login').append(`
     <div class="data">
         <p id="name"></p>

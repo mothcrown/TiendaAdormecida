@@ -1,4 +1,32 @@
-/* global React $ urlBasica apiKey */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: productos.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: productos.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* global React $ urlBasica apiKey */
 
 /** Representa un producto.
 * @author Joel Alberto Armas Reyes.
@@ -23,7 +51,7 @@ function Producto(id, nombre, descripcion, descripcionCorta, precio, rutaImagen,
   this.rutaImagen = rutaImagen;
   this.tipo = tipo;
 }
-/* Setter && Getter */
+/* Setter &amp;&amp; Getter */
 Producto.prototype = {
     setId: function(id) {this.id=id;},
     getId: function(){return this.id;},
@@ -55,10 +83,10 @@ const a = [];
 class Productos extends React.Component {
   render() {
     listaProductosReact = [];
-    for (let x = 0; x < listaProductos.length; x += 1) {
+    for (let x = 0; x &lt; listaProductos.length; x += 1) {
       listaProductosReact[listaProductosReact.length] =
         (
-          <ProductosDOM
+          &lt;ProductosDOM
             id={listaProductos[x].id}
             nombre={listaProductos[x].nombre}
             precio={listaProductos[x].precio}
@@ -67,8 +95,8 @@ class Productos extends React.Component {
           />
         );
     }
-    // return (<div className="contenedor_producto">{listaProductos}</div>);
-    return (<div className="contenedor_productos">{listaProductosReact}</div>);
+    // return (&lt;div className="contenedor_producto">{listaProductos}&lt;/div>);
+    return (&lt;div className="contenedor_productos">{listaProductosReact}&lt;/div>);
   }
 }
 
@@ -82,7 +110,7 @@ class ProductosDOM extends React.Component {
   masDetalleProducto(id, precio) {
     let productoElegido;
 
-    for(var i = 0; i < listaProductos.length; i++){
+    for(var i = 0; i &lt; listaProductos.length; i++){
       if(listaProductos[i]['id'] == id){
         productoElegido = listaProductos[i];
       }
@@ -99,7 +127,7 @@ class ProductosDOM extends React.Component {
     if ($('#name').text() !== '') {
       let productoElegido;
     
-      for(var i = 0; i < listaProductos.length; i++){
+      for(var i = 0; i &lt; listaProductos.length; i++){
         if(listaProductos[i]['id'] == id){
           productoElegido = listaProductos[i];
         }
@@ -118,33 +146,33 @@ class ProductosDOM extends React.Component {
   }
 
   render() {
-    // <div className="descripcionProducto">{this.props.descripcion}</div>
+    // &lt;div className="descripcionProducto">{this.props.descripcion}&lt;/div>
     const nombre = (this.props.nombre.length > 40) ? `${this.props.nombre.substring(0, 40)}...` : this.props.nombre;
     return (
-      <div className="producto">
-        <div>
-          <img src={this.props.cover} alt="producto tablet" />
-        </div>
-        <div>
-          <div className="nombreProducto">{nombre}</div>
-          <div><b>Precio:</b> <span className="precioProducto">{this.props.precio}</span></div>
-          <div className="enlaces_producto">
-            <a
+      &lt;div className="producto">
+        &lt;div>
+          &lt;img src={this.props.cover} alt="producto tablet" />
+        &lt;/div>
+        &lt;div>
+          &lt;div className="nombreProducto">{nombre}&lt;/div>
+          &lt;div>&lt;b>Precio:&lt;/b> &lt;span className="precioProducto">{this.props.precio}&lt;/span>&lt;/div>
+          &lt;div className="enlaces_producto">
+            &lt;a
               className="ver_detalles"
               href="javascript:void(0);"
               onClick={this.masDetalleProducto.bind(this,this.props.id, this.props.precio)}>
               Ver detalles 
-              <i className="fa fa-search-plus" />
-            </a>
-            <a 
+              &lt;i className="fa fa-search-plus" />
+            &lt;/a>
+            &lt;a 
               className="comprar_producto 
               "href="javascript:void(0);" 
               onClick={this.comprarProducto.bind(this,this.props.id, this.props.precio)}>
               Comprar
-            </a>
-          </div>
-        </div>
-      </div>
+            &lt;/a>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
     );
   }
 }
@@ -160,13 +188,13 @@ ProductosDOM.defaultProps = {
 function quitarCaracteresRaros(cadena) {
   let textoLimpio;
 
-  textoLimpio = cadena.replace(/&lt;/gi, '');
-  textoLimpio = textoLimpio.replace(/&gt;/gi, '');
-  textoLimpio = textoLimpio.replace(/&quot;/gi, '');
-  textoLimpio = textoLimpio.replace(/br&gt;/gi, '');
-  textoLimpio = textoLimpio.replace(/b&gt;/gi, '');
-  textoLimpio = textoLimpio.replace(/li&gt;/gi, '');
-  textoLimpio = textoLimpio.replace(/ul&gt;/gi, '');
+  textoLimpio = cadena.replace(/&amp;lt;/gi, '');
+  textoLimpio = textoLimpio.replace(/&amp;gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/&amp;quot;/gi, '');
+  textoLimpio = textoLimpio.replace(/br&amp;gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/b&amp;gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/li&amp;gt;/gi, '');
+  textoLimpio = textoLimpio.replace(/ul&amp;gt;/gi, '');
   textoLimpio = textoLimpio.replace(/\\"/gi, '');
   textoLimpio = textoLimpio.replace(/[""]/gi, '');
   textoLimpio = textoLimpio.replace(/["]/gi, '');
@@ -182,7 +210,7 @@ function quitarCaracteresRaros(cadena) {
 function convertirDolarAEuro() {
   const listaPrecios = $('.precioProducto');
   const listaPreciosLength = listaPrecios.length;
-  for (let i = 0; i < listaPreciosLength; i += 1) {
+  for (let i = 0; i &lt; listaPreciosLength; i += 1) {
     $.getJSON(urlBasica.forex, {
       quantity: parseInt($(listaPrecios[i]).text(), 10),
       api_key: apiKey.Forex,
@@ -197,7 +225,7 @@ function convertirDolarAEuro() {
 }
 
 function mostrarProductos() {
-  React.render(<Productos />, document.getElementById('productos'));
+  React.render(&lt;Productos />, document.getElementById('productos'));
   convertirDolarAEuro();
 }
 
@@ -209,7 +237,7 @@ function mostrarProductos() {
 function moldeProductos(items, api) {
   listaProductos = [];
   const numItems = items.length;
-  for (let i = 0; i < numItems; i += 1) {
+  for (let i = 0; i &lt; numItems; i += 1) {
     if (api === 'eBay') {
       const id = items[i].itemId[0];
       const nombre = items[i].title[0];
@@ -276,3 +304,26 @@ function comprarDesdeDetalles(nombre, precio) {
   }
 }
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#comprarDesdeDetalles">comprarDesdeDetalles</a></li><li><a href="global.html#convertirDolarAEuro">convertirDolarAEuro</a></li><li><a href="global.html#moldeProductos">moldeProductos</a></li><li><a href="global.html#Producto">Producto</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 04 2018 21:00:48 GMT+0000 (Hora estándar GMT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
