@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -10,8 +10,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /* global React $ */
 
-var Login = function (_React$Component) {
-  _inherits(Login, _React$Component);
+var Registro = function (_React$Component) {
+  _inherits(Registro, _React$Component);
+
+  function Registro() {
+    _classCallCheck(this, Registro);
+
+    return _possibleConstructorReturn(this, (Registro.__proto__ || Object.getPrototypeOf(Registro)).apply(this, arguments));
+  }
+
+  _createClass(Registro, [{
+    key: 'handleClick',
+    value: function handleClick(e) {
+      e.preventDefault();
+      $('#loginDialog').dialog('open');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'a',
+        { href: '#', onClick: this.handleClick },
+        'Reg\xEDstrate'
+      );
+    }
+  }]);
+
+  return Registro;
+}(React.Component);
+
+var Login = function (_React$Component2) {
+  _inherits(Login, _React$Component2);
 
   function Login() {
     _classCallCheck(this, Login);
@@ -20,13 +49,13 @@ var Login = function (_React$Component) {
   }
 
   _createClass(Login, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
+        'div',
         null,
-        React.createElement("i", { className: "fa fa-user" }),
-        "Reg\xEDstrate"
+        React.createElement('i', { className: 'fa fa-user' }),
+        React.createElement(Registro, null)
       );
     }
   }]);

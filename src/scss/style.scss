@@ -9,6 +9,7 @@ body {
   height: 100%;
   background-color: #DCDCDC;
   box-sizing: border-box;
+  color: black;
 }
 
 header {
@@ -115,6 +116,9 @@ footer {
 .fa-user{
   margin-right: .5em;
 }
+.fa-question-circle {
+  margin-right: .5em;
+}
 
 .comprar_producto:hover {
   text-decoration: none;
@@ -135,5 +139,81 @@ footer {
     padding-top: 8%;
     cursor: pointer;
   }
-  
+  a {
+    color: ghostwhite;
+    text-decoration: none;
+  }
+}
+
+#loginDialog {
+  p {
+    font-weight: bold;
+  }
+}
+
+.data { display: none; }
+
+.ui-dialog-titlebar {
+  background-color: #003366;
+  color: ghostwhite;
+}
+
+.ui-dialog {
+  background-color: ghostwhite;
+}
+
+footer {
+  height: 125px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  color: ghostwhite;
+}
+
+.ayuda {
+  height: 100%;
+  padding-top: 1em;
+  padding-left: 1em; 
+  font-size: 110%;
+}
+
+.cc {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+  p {
+    padding-top: .5em;
+    text-align: center;
+  }
+}
+
+.direccion {
+  height: 100%;
+  padding-top: 1em;
+  padding-right: 1em;
+  overflow: hidden;
+}
+
+#categorias {
+  height: 125px;
+  background-color: #0066CC;
+  color: ghostwhite;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  div {
+    margin-top: .5em;
+    margin-left: .5em;
+    margin-right: .5em;
+    text-align: center;
+    cursor: pointer;
+    img {
+      width: 80%;
+      @include borderradius(3em);
+    }
+    &:hover {
+      @include transform(scale(1.1), scale(1.1));
+    }
+  }
 }

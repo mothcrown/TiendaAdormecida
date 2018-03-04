@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Meta google client -->
+    <meta name="google-signin-client_id" content="1059103644824-lr7qs2ori95tdvb961s396bq8t8t1qek.apps.googleusercontent.com">
+    <title>Tienda Adormecida - DEMO</title>
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Script para el inicio de sesion de google -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .g-signin2 {
+            margin-left: 40px;
+            margin-top: 40px;
+        }
+        .data { display: none; }
+    </style>
+</head>
+
+<body>
+    <div id="ejemplo" class="col-md-4"></div>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div class="data">
+        <p>Profile Details</p>
+        <img id="pic" class="img-circle" width="100" height="100"/>
+        <p>Emai Address</p>
+        <p id="email" class="alert alert-danger"></p>
+        <button onclick="signOut()" class="btn btn-danger">SignOut</button>
+    </div>
+    <!-- Jesús bendito, esto qué es -->
+    <script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/prueba.js"></script>
+    <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail());
+      $('.g-signin2').css('display', 'none');
+      $('.data').css('display', 'block');
+      $('#pic').attr('src', profile.getImageUrl());
+      $('#email').text(profile.getEmail());
+    }
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        $('.g-signin2').css('display', 'block');
+        $('.data').css('display', 'none');
+      });
+    }
+    </script>
+</body>
+
+</html>

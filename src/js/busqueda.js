@@ -1,12 +1,12 @@
 /* global $ React moldeProductos urlBasica apiKey idCategorias listaProductos */
 
-function buscaWalmart(keywords, idCategoria) {
+function buscaWalmart(keywords, idCategoria, limit) {
   $.getJSON(urlBasica.walmart, {
     query: keywords,
     apikey: apiKey.Walmart,
     categoryId: idCategoria,
     format: 'json',
-    limit: 5,
+    limit,
   })
     .done(function (response) {
       moldeProductos(response.items, 'Walmart');
@@ -17,7 +17,7 @@ function buscaWalmart(keywords, idCategoria) {
  * HE VENCIDO A ESTA PETICIÓN AJAX. SOY EL SEÑOR DE EBAY!
  *  - Marcos.
  */
-function buscaEBay(keywords, idCategoria) {
+function buscaEBay(keywords, idCategoria, limit) {
   $.ajax({
     url: urlBasica.ebay,
     type: 'POST',
@@ -33,7 +33,7 @@ function buscaEBay(keywords, idCategoria) {
       keywords,
       categoryId: idCategoria,
       // siteid: '0',
-      'paginationInput.entriesPerPage': 5,
+      'paginationInput.entriesPerPage': limit,
     },
     success: function (response) {
       moldeProductos(response.findItemsAdvancedResponse[0].searchResult[0].item, 'eBay');
@@ -45,8 +45,36 @@ function buscaProductos(keywords, categoria) {
   let busqueda = keywords;
   // Quita espacios y los cambia por '%20'
   // busqueda = encodeURIComponent(busqueda.trim());
-  buscaWalmart(busqueda, idCategorias[categoria].Walmart);
-  buscaEBay(busqueda, idCategorias[categoria].eBay);
+  if (keywords !== '' && keywords !== '*' ) {
+    buscaWalmart(busqueda, idCategorias[categoria].Walmart, 5);
+    buscaEBay(busqueda, idCategorias[categoria].eBay, 5);
+  } else {
+    buscaEBay(busqueda, idCategorias[categoria].eBay, 10);
+  }
+}
+
+function buscaDefecto(categoria) {
+  const urlDefecto = 'http://svcs.ebay.com/MerchandisingService?';
+  $.ajax({
+    url: urlDefecto,
+    type: 'POST',
+    jsonp: 'callback',
+    dataType: 'JSONP',
+    data: {
+      'OPERATION-NAME': 'getMostWatchedItems',
+      'SERVICE-NAME': 'MerchandisingService',
+      'SERVICE-VERSION': '1.1.0',
+      'CONSUMER-ID': apiKey.eBay,
+      'GLOBAL-ID': 'EBAY-US',
+      'RESPONSE-DATA-FORMAT': 'JSON',
+      'REST-PAYLOAD': true,
+      maxResults: 10,
+      categoryId: categoria,
+    },
+    success: function (response) {
+      moldeProductos(response.getMostWatchedItemsResponse.itemRecommendations.item, 'eBay-Default');
+    },
+  });
 }
 
 class BusquedaAvanzada extends React.Component {
@@ -65,7 +93,7 @@ class BotonBusqueda extends React.Component {
   }
   render() {
     return (
-      <button id="botonBusqueda" onClick={this.handleClick}>
+      <button id="botonBusqueda" onClick={this.handleClick.bind(this)}>
         <i className="fa fa-search" />
         Buscar
       </button>

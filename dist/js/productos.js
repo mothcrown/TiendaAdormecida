@@ -169,7 +169,7 @@ var ProductosDOM = function (_React$Component2) {
     key: 'render',
     value: function render() {
       // <div className="descripcionProducto">{this.props.descripcion}</div>
-      var nombre = this.props.nombre.length > 50 ? this.props.nombre.substring(0, 50) + '...' : this.props.nombre;
+      var nombre = this.props.nombre.length > 40 ? this.props.nombre.substring(0, 40) + '...' : this.props.nombre;
       return React.createElement(
         'div',
         { className: 'producto' },
@@ -302,17 +302,29 @@ function moldeProductos(items, api) {
       var producto = new Producto(id, nombre, descripcion, _descripcionCorta, precio, rutaImagen, tipo);
       listaProductos.push(producto);
     }
-    if (api === 'Walmart') {
+    if (api === 'eBay-Default') {
       var _id = items[i].itemId;
-      var _nombre = quitarCaracteresRaros(items[i].name);
-      var _descripcion = quitarCaracteresRaros(items[i].longDescription);
-      var _descripcionCorta2 = quitarCaracteresRaros(items[i].shortDescription);
-      _descripcionCorta2 = _descripcion.substring(0, 20) + '...';
-      var _precio = items[i].salePrice;
-      var _rutaImagen = items[i].thumbnailImage;
+      var _nombre = items[i].title;
+      var _descripcion = 'No disponible';
+      var _descripcionCorta2 = 'No disponible';
+      // descripcionCorta = `${descripcion.substring(0, 20)}...`;
+      var _precio = items[i].buyItNowPrice.__value__;
+      var _rutaImagen = items[i].imageURL;
       var _tipo = 'tipo';
       var _producto = new Producto(_id, _nombre, _descripcion, _descripcionCorta2, _precio, _rutaImagen, _tipo);
       listaProductos.push(_producto);
+    }
+    if (api === 'Walmart') {
+      var _id2 = items[i].itemId;
+      var _nombre2 = quitarCaracteresRaros(items[i].name);
+      var _descripcion2 = quitarCaracteresRaros(items[i].longDescription);
+      var _descripcionCorta3 = quitarCaracteresRaros(items[i].shortDescription);
+      _descripcionCorta3 = _descripcion2.substring(0, 20) + '...';
+      var _precio2 = items[i].salePrice;
+      var _rutaImagen2 = items[i].thumbnailImage;
+      var _tipo2 = 'tipo';
+      var _producto2 = new Producto(_id2, _nombre2, _descripcion2, _descripcionCorta3, _precio2, _rutaImagen2, _tipo2);
+      listaProductos.push(_producto2);
     }
   }
   mostrarProductos();

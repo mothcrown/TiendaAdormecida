@@ -1,9 +1,13 @@
 /* global React $ */
 
 class Registro extends React.Component {
+  handleClick(e) {
+    e.preventDefault();
+    $('#loginDialog').dialog('open');
+  }
   render() {
     return (
-      <a href="#">Regístrate</a>
+      <a href="#" onClick={this.handleClick}>Regístrate</a>
     );
   }
 }

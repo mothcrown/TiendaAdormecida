@@ -109,7 +109,7 @@ class ProductosDOM extends React.Component {
 
   render() {
     // <div className="descripcionProducto">{this.props.descripcion}</div>
-    const nombre = (this.props.nombre.length > 50) ? `${this.props.nombre.substring(0, 50)}...` : this.props.nombre;
+    const nombre = (this.props.nombre.length > 40) ? `${this.props.nombre.substring(0, 40)}...` : this.props.nombre;
     return (
       <div className="producto">
         <div>
@@ -205,6 +205,18 @@ function moldeProductos(items, api) {
       // descripcionCorta = `${descripcion.substring(0, 20)}...`;
       const precio = items[i].sellingStatus[0].currentPrice[0].__value__;
       const rutaImagen = items[i].galleryURL[0];
+      const tipo = 'tipo';
+      const producto = new Producto(id, nombre, descripcion, descripcionCorta, precio, rutaImagen, tipo);
+      listaProductos.push(producto);
+    }
+    if (api === 'eBay-Default') {
+      const id = items[i].itemId;
+      const nombre = items[i].title;
+      const descripcion = 'No disponible';
+      const descripcionCorta = 'No disponible';
+      // descripcionCorta = `${descripcion.substring(0, 20)}...`;
+      const precio = items[i].buyItNowPrice.__value__;
+      const rutaImagen = items[i].imageURL;
       const tipo = 'tipo';
       const producto = new Producto(id, nombre, descripcion, descripcionCorta, precio, rutaImagen, tipo);
       listaProductos.push(producto);
