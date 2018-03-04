@@ -203,7 +203,7 @@ function moldeProductos(items, api) {
       var _descripcionCorta = 'No disponible';
       // descripcionCorta = `${descripcion.substring(0, 20)}...`;
       var precio = items[i].sellingStatus[0].currentPrice[0].__value__;
-      var rutaImagen = items[i].galleryUrl;
+      var rutaImagen = items[i].galleryUrl[0];
       var tipo = 'tipo';
       var producto = new Producto(id, nombre, descripcion, _descripcionCorta, precio, rutaImagen, tipo);
       listaProductos.push(producto);

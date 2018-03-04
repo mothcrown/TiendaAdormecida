@@ -2,12 +2,12 @@
 
 // JSONs simplitos que nos va a ayudar muchito
 const apiKey = {
-  eBay: 'MarcosDa-TiendaAd-SBX-6df6f4b63-ba6b285d',
+  eBay: 'MarcosDa-TiendaAd-PRD-0df64df3e-523ae795',
   Walmart: 'rrxgpza76z7ea5r2db73jtkz',
 };
 
 const urlBasica = {
-  ebay: 'http://svcs.sandbox.ebay.com/services/search/FindingService/v1?',
+  ebay: 'http://svcs.ebay.com/services/search/FindingService/v1?',
   walmart: 'http://api.walmartlabs.com/v1/search?callback=?',
 };
 
@@ -39,46 +39,18 @@ function buscaWalmart(keywords, idCategoria) {
     });
 }
 
-/*
-function devuelveProductos(response) {
-  const resultados = moldeProductos(response.searchResult, 'eBay');
-  return resultados;
-}
-*/
-
+/**
+ * HE VENCIDO A ESTA PETICIÓN AJAX. SOY EL SEÑOR DE EBAY!
+ *  - Marcos.
+ */
 function buscaEBay(keywords, idCategoria) {
-  /*
-  $.ajax({
-    url: 'http://open.api.ebay.com/shopping?callname=FindItemsAdvanced',
-    type: 'POST',
-    dataType: 'JSONP',
-    jsonp: 'callbackname',
-    crossDomain: true,
-    data: {
-      appid: apiKey.eBay,
-      version: '771',
-      siteid: '0',
-      requestencoding: 'JSON',
-      responseencoding: 'JSON',
-      QueryKeywords: keywords,
-      MaxEntries: '10',
-      callback: true,
-    },
-    success: function (response) {
-      moldeProductos(response.searchResult, 'eBay');
-    },
-  })
-  */
-  
   $.ajax({
     url: urlBasica.ebay,
     type: 'POST',
+    jsonp: 'callback',
     dataType: 'JSONP',
-    // jsonp: 'callbackname',
-    // crossDomain: true,
     data: {
       'OPERATION-NAME': 'findItemsAdvanced',
-      'SERVICE-NAME': 'FindingService',
       'SERVICE-VERSION': '1.0.0',
       'SECURITY-APPNAME': apiKey.eBay,
       'GLOBAL-ID': 'EBAY-US',
@@ -86,30 +58,14 @@ function buscaEBay(keywords, idCategoria) {
       'REST-PAYLOAD': true,
       keywords,
       categoryId: idCategoria,
-      siteid: '0',
+      // siteid: '0',
       'paginationInput.entriesPerPage': 10,
     },
     success: function (response) {
-      moldeProductos(response.searchResult, 'eBay');
+      console.warn(response);
+      moldeProductos(response.findItemsAdvancedResponse[0].searchResult[0].item, 'eBay');
     },
   });
-    
-  /*
-  $.getJSON(urlBasica.ebay, {
-    'OPERATION-NAME': 'findItemsAdvanced',
-    'SERVICE-VERSION': '1.0.0',
-    'SECURITY-APPNAME': apiKey.eBay,
-    'GLOBAL-ID': 'EBAY-US',
-    'RESPONSE-DATA-FORMAT': 'JSON',
-    'REST-PAYLOAD': 'true',
-    'paginationInput.entriesPerPage': 10,
-    keywords,
-    categoryId: idCategoria,
-  })
-    .done(function (response) {
-      moldeProductos(response.searchResult, 'eBay');
-    });
-  */
 }
 
 function buscaProductos(keywords, categoria) {

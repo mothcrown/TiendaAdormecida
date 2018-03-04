@@ -12,12 +12,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // JSONs simplitos que nos va a ayudar muchito
 var apiKey = {
-  eBay: 'MarcosDa-TiendaAd-SBX-6df6f4b63-ba6b285d',
+  eBay: 'MarcosDa-TiendaAd-PRD-0df64df3e-523ae795',
   Walmart: 'rrxgpza76z7ea5r2db73jtkz'
 };
 
 var urlBasica = {
-  ebay: 'http://svcs.sandbox.ebay.com/services/search/FindingService/v1?',
+  ebay: 'http://svcs.ebay.com/services/search/FindingService/v1?',
   walmart: 'http://api.walmartlabs.com/v1/search?callback=?'
 };
 
@@ -82,12 +82,10 @@ function buscaEBay(keywords, idCategoria) {
   $.ajax({
     url: urlBasica.ebay,
     type: 'POST',
+    jsonp: 'callback',
     dataType: 'JSONP',
-    // jsonp: 'callbackname',
-    // crossDomain: true,
     data: {
       'OPERATION-NAME': 'findItemsAdvanced',
-      'SERVICE-NAME': 'FindingService',
       'SERVICE-VERSION': '1.0.0',
       'SECURITY-APPNAME': apiKey.eBay,
       'GLOBAL-ID': 'EBAY-US',
@@ -95,11 +93,12 @@ function buscaEBay(keywords, idCategoria) {
       'REST-PAYLOAD': true,
       keywords: keywords,
       categoryId: idCategoria,
-      siteid: '0',
+      // siteid: '0',
       'paginationInput.entriesPerPage': 10
     },
     success: function success(response) {
-      moldeProductos(response.searchResult, 'eBay');
+      console.warn(response);
+      moldeProductos(response.findItemsAdvancedResponse[0].searchResult[0].item, 'eBay');
     }
   });
 

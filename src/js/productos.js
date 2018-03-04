@@ -133,7 +133,7 @@ function moldeProductos(items, api) {
       const descripcionCorta = 'No disponible';
       // descripcionCorta = `${descripcion.substring(0, 20)}...`;
       const precio = items[i].sellingStatus[0].currentPrice[0].__value__;
-      const rutaImagen = items[i].galleryUrl;
+      const rutaImagen = items[i].galleryUrl[0];
       const tipo = 'tipo';
       const producto = new Producto(id, nombre, descripcion, descripcionCorta, precio, rutaImagen, tipo);
       listaProductos.push(producto);
