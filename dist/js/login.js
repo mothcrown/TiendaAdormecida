@@ -10,6 +10,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /* global React $ */
 
+function onSignInGoogle(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail());
+  // $('.g-signin2').css('display', 'none');
+  $('#login').empty();
+  $('#login').append('\n    <div class="data">\n        <p id="name"></p>\n        <img id="pic" class="img-circle" width="50" height="50"/>\n        <button onclick="signOutGoogle()" class="btn btn-danger">Salir</button>\n    </div>\n  ');
+  $('.data').css('display', 'block');
+  $('#pic').attr('src', profile.getImageUrl());
+  $('#name').text(profile.getName());
+}
+
+function signOutGoogle() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    $('.g-signin2').css('display', 'block');
+    $('#login').empty();
+    React.render(React.createElement(Login, null), document.getElementById('login'));
+  });
+}
+
 var Registro = function (_React$Component) {
   _inherits(Registro, _React$Component);
 

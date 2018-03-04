@@ -37,7 +37,6 @@ Producto.prototype = {
     setDescripcionCorta: function(descripcion){this.descripcionCorta=descripcionCorta;},
     getDescripcionCorta: function(){return this.descripcionCorta;},
 
-
     setPrecio: function(precio){this.precio=precio;},
     getPrecio: function(){return this.precio;},
 
@@ -80,7 +79,7 @@ class ProductosDOM extends React.Component {
     this.masDetalleProducto = this.masDetalleProducto.bind(this);
   }
 
-  masDetalleProducto(id) {
+  masDetalleProducto(id, precio) {
     let productoElegido;
 
     for(var i = 0; i < listaProductos.length; i++){
@@ -89,22 +88,33 @@ class ProductosDOM extends React.Component {
       }
     }
 
-    alert(productoElegido.descripcion);
+    $('#detalleDialog').dialog('open');
+    $('#detalleNombre').text(productoElegido.nombre);
+    $('#detalleDescripcion').text(productoElegido.descripcion);
+    $('#detallePrecio').text(precio);
+    //alert(productoElegido.descripcion);
   }
 
-  comprarProducto(id) {
-    let productoElegido;
+  comprarProducto(id, precio) {
+    if ($('#name').text() !== '') {
+      let productoElegido;
     
-        for(var i = 0; i < listaProductos.length; i++){
-          if(listaProductos[i]['id'] == id){
-            productoElegido = listaProductos[i];
-          }
+      for(var i = 0; i < listaProductos.length; i++){
+        if(listaProductos[i]['id'] == id){
+          productoElegido = listaProductos[i];
         }
-    
-        alert("Producto a comprar: "+productoElegido.nombre);
-
-    console.log('a');
-    cambiarBusqueda ();
+      }
+      
+      $('#comprarDialog').dialog('open');
+      const userName = $('#name').text();
+      const productoNombre = productoElegido.nombre;
+      $('#comprarNombre').text(userName);
+      $('#comprarProductoNombre').text(productoNombre);
+      $('#comprarPrecio').text(precio);
+      // alert("Producto a comprar: "+productoElegido.nombre);
+    } else {
+      $('#loginDialog').dialog('open');
+    }
   }
 
   render() {
@@ -122,14 +132,14 @@ class ProductosDOM extends React.Component {
             <a
               className="ver_detalles"
               href="javascript:void(0);"
-              onClick={this.masDetalleProducto.bind(this,this.props.id)}>
+              onClick={this.masDetalleProducto.bind(this,this.props.id, this.props.precio)}>
               Ver detalles 
               <i className="fa fa-search-plus" />
             </a>
             <a 
               className="comprar_producto 
               "href="javascript:void(0);" 
-              onClick={this.comprarProducto.bind(this,this.props.id)}>
+              onClick={this.comprarProducto.bind(this,this.props.id, this.props.precio)}>
               Comprar
             </a>
           </div>
@@ -184,8 +194,6 @@ function convertirDolarAEuro() {
       $(listaPrecios[i]).text(`${eur}€`);
     });
   }
-
-
 }
 
 function mostrarProductos() {
@@ -235,5 +243,27 @@ function moldeProductos(items, api) {
     }
   }
   mostrarProductos();
+}
+
+function comprarDesdeDetalles(nombre, precio) {
+  if ($('#name').text() !== '') {
+    let productoElegido;
+
+    listaProductos.map((producto) => {
+      if (producto.nombre === nombre) {
+        productoElegido = producto;
+      }
+    });
+  
+    $('#comprarDialog').dialog('open');
+    const userName = $('#name').text();
+    const productoNombre = productoElegido.nombre;
+    $('#comprarNombre').text(userName);
+    $('#comprarProductoNombre').text(productoNombre);
+    $('#comprarPrecio').text(precio);
+    // alert("Producto a comprar: "+productoElegido.nombre);
+  } else {
+    $('#loginDialog').dialog('open');
+  }
 }
 

@@ -189,3 +189,31 @@ footer {
       -moz-transform: scale(1.1) scale(1.1);
       -ms-transform: scale(1.1) scale(1.1);
       transform: scale(1.1) scale(1.1); }
+
+.data {
+  padding-top: 0;
+  display: none; }
+  .data p {
+    display: inline-block;
+    font-size: 80%;
+    margin-left: .5em; }
+  .data img {
+    border-radius: 3em; }
+  .data button {
+    position: relative;
+    right: 0; }
+
+#comprarDialog {
+  position: relative; }
+  #comprarDialog span {
+    font-weight: bold; }
+  #comprarDialog button {
+    position: absolute;
+    right: 5%; }
+
+#detalleDialog div {
+  display: flex;
+  justify-content: space-between; }
+
+#avanzadaDialog img {
+  width: 60%; }

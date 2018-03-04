@@ -217,3 +217,44 @@ footer {
     }
   }
 }
+
+.data {
+  padding-top: 0;
+  display: none;
+  p {
+    display: inline-block;
+    font-size: 80%;
+    margin-left: .5em;
+  }
+  img {
+    @include borderradius(3em);
+  }
+  button {
+    position:relative;
+    right:0;
+  }
+}
+
+#comprarDialog {
+  position: relative;
+  span {
+    font-weight: bold;
+  }
+  button {
+    position: absolute;
+    right: 5%;
+  }
+}
+
+#detalleDialog {
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+#avanzadaDialog {
+  img {
+    width: 60%;
+  }
+}

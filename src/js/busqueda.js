@@ -78,9 +78,12 @@ function buscaDefecto(categoria) {
 }
 
 class BusquedaAvanzada extends React.Component {
+  handleClick() {
+    $('#avanzadaDialog').dialog('open');
+  }
   render() {
     return (
-      <a href="#">Avanzada</a>
+      <a href="#" onClick={this.handleClick.bind(this)}>Avanzada</a>
     );
   }
 }
@@ -129,9 +132,16 @@ SelectBusqueda.defaultProps = {
 };
 
 class InputBusqueda extends React.Component {
+  handleKeyPress(e) {
+    if (e.which === 13 || e.keyCode === 13) {
+      const keywords = $('#inputBusqueda').val();
+      const categoria = $('#selectBusqueda').val();
+      buscaProductos(keywords, categoria);
+    }
+  }
   render() {
     return (
-      <input id="inputBusqueda" type="text" placeholder="Busca ofertas" />
+      <input id="inputBusqueda" type="text" placeholder="Busca ofertas" onKeyPress={this.handleKeyPress.bind(this)} />
     );
   }
 }

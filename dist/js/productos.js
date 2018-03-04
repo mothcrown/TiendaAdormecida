@@ -138,7 +138,7 @@ var ProductosDOM = function (_React$Component2) {
 
   _createClass(ProductosDOM, [{
     key: 'masDetalleProducto',
-    value: function masDetalleProducto(id) {
+    value: function masDetalleProducto(id, precio) {
       var productoElegido = void 0;
 
       for (var i = 0; i < listaProductos.length; i++) {
@@ -147,23 +147,34 @@ var ProductosDOM = function (_React$Component2) {
         }
       }
 
-      alert(productoElegido.descripcion);
+      $('#detalleDialog').dialog('open');
+      $('#detalleNombre').text(productoElegido.nombre);
+      $('#detalleDescripcion').text(productoElegido.descripcion);
+      $('#detallePrecio').text(precio);
+      //alert(productoElegido.descripcion);
     }
   }, {
     key: 'comprarProducto',
-    value: function comprarProducto(id) {
-      var productoElegido = void 0;
+    value: function comprarProducto(id, precio) {
+      if ($('#name').text() !== '') {
+        var productoElegido = void 0;
 
-      for (var i = 0; i < listaProductos.length; i++) {
-        if (listaProductos[i]['id'] == id) {
-          productoElegido = listaProductos[i];
+        for (var i = 0; i < listaProductos.length; i++) {
+          if (listaProductos[i]['id'] == id) {
+            productoElegido = listaProductos[i];
+          }
         }
+
+        $('#comprarDialog').dialog('open');
+        var userName = $('#name').text();
+        var productoNombre = productoElegido.nombre;
+        $('#comprarNombre').text(userName);
+        $('#comprarProductoNombre').text(productoNombre);
+        $('#comprarPrecio').text(precio);
+        // alert("Producto a comprar: "+productoElegido.nombre);
+      } else {
+        $('#loginDialog').dialog('open');
       }
-
-      alert("Producto a comprar: " + productoElegido.nombre);
-
-      console.log('a');
-      cambiarBusqueda();
     }
   }, {
     key: 'render',
@@ -209,7 +220,7 @@ var ProductosDOM = function (_React$Component2) {
               {
                 className: 'ver_detalles',
                 href: 'javascript:void(0);',
-                onClick: this.masDetalleProducto.bind(this, this.props.id) },
+                onClick: this.masDetalleProducto.bind(this, this.props.id, this.props.precio) },
               'Ver detalles',
               React.createElement('i', { className: 'fa fa-search-plus' })
             ),
@@ -217,7 +228,7 @@ var ProductosDOM = function (_React$Component2) {
               'a',
               {
                 className: 'comprar_producto \r ', href: 'javascript:void(0);',
-                onClick: this.comprarProducto.bind(this, this.props.id) },
+                onClick: this.comprarProducto.bind(this, this.props.id, this.props.precio) },
               'Comprar'
             )
           )
@@ -328,4 +339,26 @@ function moldeProductos(items, api) {
     }
   }
   mostrarProductos();
+}
+
+function comprarDesdeDetalles(nombre, precio) {
+  if ($('#name').text() !== '') {
+    var productoElegido = void 0;
+
+    listaProductos.map(function (producto) {
+      if (producto.nombre === nombre) {
+        productoElegido = producto;
+      }
+    });
+
+    $('#comprarDialog').dialog('open');
+    var userName = $('#name').text();
+    var productoNombre = productoElegido.nombre;
+    $('#comprarNombre').text(userName);
+    $('#comprarProductoNombre').text(productoNombre);
+    $('#comprarPrecio').text(precio);
+    // alert("Producto a comprar: "+productoElegido.nombre);
+  } else {
+    $('#loginDialog').dialog('open');
+  }
 }
